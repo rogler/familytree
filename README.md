@@ -1,4 +1,4 @@
-# Family site (Nuxt 3 + Firebase Hosting)
+# Family site (Nuxt 4 + Firebase Hosting)
 
 ## Setup
 ```bash
