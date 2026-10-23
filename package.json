@@ -1,0 +1,21 @@
+{
+  "name": "family-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npm run build:tree && nuxt dev",
+    "build:tree": "node scripts/build-tree.mjs",
+    "generate": "npm run build:tree && nuxt generate",
+    "preview": "nuxt preview",
+    "deploy": "npm run generate && firebase deploy --only hosting"
+  },
+  "dependencies": {
+    "family-chart": "latest",
+    "firebase-tools": "^15.34.1",
+    "nuxt": "^3.13.0",
+    "vue": "latest"
+  },
+  "devDependencies": {
+    "parse-gedcom": "^1.0.1"
+  }
+}
