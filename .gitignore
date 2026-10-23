@@ -1,0 +1,8 @@
+node_modules
+.nuxt
+.output
+dist
+.firebase
+# private source data and generated (redacted) output
+data/family.ged
+public/tree.json
