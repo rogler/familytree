@@ -1,20 +1,25 @@
 // Converts a GEDCOM file into public/tree.json, REDACTING living people.
 // Source: data/family.ged (private, gitignored). Falls back to scripts/sample.ged.
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs'
-import { parse } from 'parse-gedcom'
+import { parse } from 'gedcom'
 
 const src = existsSync('data/family.ged') ? 'data/family.ged' : 'scripts/sample.ged'
 console.log(`Reading ${src}`)
 
-// Normalize across parse-gedcom versions (array vs root node, tree vs children)
-const norm = n => ({
-  tag: n.tag ?? n.type,
-  data: typeof n.data === 'string' ? n.data : (n.value ?? ''),
-  pointer: n.pointer ?? n.data?.xref_id,
-  children: (n.children ?? n.tree ?? []).map(norm)
-})
+// Normalize gedcom@3.0.9 nodes to the format used by the existing code.
+function norm(n) {
+  return {
+    tag: n.type,
+    pointer: n.data?.xref_id ?? '',
+    data: n.data?.value ?? n.data?.pointer ?? '',
+    children: (n.children ?? []).map(norm)
+  }
+}
 const parsed = parse(readFileSync(src, 'utf8'))
-const top = Array.isArray(parsed) ? parsed : (parsed.children ?? parsed.tree ?? [])
+console.dir(parsed, { depth: 6 });
+const top = Array.isArray(parsed)
+  ? parsed
+  : (parsed.children ?? parsed.tree ?? [])
 const nodes = top.map(norm)
 
 const thisYear = new Date().getFullYear()

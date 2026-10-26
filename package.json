@@ -12,6 +12,7 @@
   "dependencies": {
     "family-chart": "latest",
     "firebase-tools": "^15.34.1",
+    "gedcom": "^3.0.9",
     "npm": "^12.2.1",
     "nuxt": "^4.6.2",
     "vue": "latest"
